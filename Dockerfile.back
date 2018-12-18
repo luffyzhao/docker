@@ -1,0 +1,170 @@
+#------------------------------------------------------------
+#
+#  用途: 开发环境的基础结构
+#  构成: CentOS7 + Apache + PHP7(Xdebug) + Redis + mysql
+#
+# @version    1.0
+# @author     Luffy Zhao
+#
+
+#------------------------------------------------------------
+# FROM
+FROM ubuntu:16.04
+
+#------------------------------------------------------------
+MAINTAINER Luffy Zhao
+
+ENV PHP7="php-7.2.12"
+ENV REDIS="redis-5.0.2"
+ENV MYSQL="mysql80-community-release-el7-1"
+
+ENV XDEBUG="xdebug-2.6.1"
+ENV PHPREDIS="phpredis-4.2.0"
+
+ADD module/$PHP7.tar.gz /usr/local/src/
+ADD module/$REDIS.tar.gz /usr/local/src/
+ADD module/$MYSQL.noarch.rpm /usr/local/src/$MYSQL.noarch.rpm
+
+#------------------------------------------------------------
+# PHP扩展
+ADD module/$XDEBUG.tgz /usr/local/src/
+ADD module/$PHPREDIS.tar.gz /usr/local/src/
+
+#------------------------------------------------------------
+# 启动文件
+ADD script/run.sh /usr/local/bin/run.sh
+
+#------------------------------------------------------------
+# Update
+RUN yum update -y
+
+#------------------------------------------------------------
+# WGET
+RUN yum install -y wget
+
+#------------------------------------------------------------
+# 更换阿里源
+RUN mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+RUN wget -O /etc/yum.repos.d/CentOS7-Base-163.repo http://mirrors.163.com/.help/CentOS7-Base-163.repo
+RUN yum clean all
+RUN yum makecache
+
+#------------------------------------------------------------
+# 基本
+RUN yum install -y tar gcc-c++ gcc cmake cyrus-sasl-devel libmemcached php-memcached  \
+	build-essential bison libreadline6 libreadline6-dev curl  libssl-dev libyaml-dev libxml2-dev \
+	libxslt-dev autoconf libc6-dev libcur* libxml2 libxml2-devel zlib1g zlib1g-dev  openssl openssl-devel \
+	bzip2 bzip2-devel curl curl-devel libjpeg libjpeg-devel  libpng libpng-devel  freetype-devel gmp-devel \
+	mysql-devel ncurses ncurses-devel unixODBC-devel  pspell-devel  libmcrypt libmcrypt-devel net-snmp net-snmp-devel \
+	mhash-devel libsqlite3-0 libsqlite3-dev sqlite3  libaio libaio-devel passwd ntp mod_ssl openssh-server git httpd-devel
+
+#------------------------------------------------------------
+# Httpd
+RUN yum install -y httpd
+
+#------------------------------------------------------------
+# Redis
+## Install file
+
+## Radis install
+RUN cd /usr/local/src/$REDIS && make && make install
+RUN cd /usr/local/src/$REDIS/utils && ./install_server.sh
+
+#------------------------------------------------------------
+# MySQL
+## Install
+RUN yum -y remove mysql 
+RUN yum install -y /usr/local/src/$MYSQL.noarch.rpm
+RUN yum install -y mysql-client mysql-server mysql-devel
+RUN systemctl start mysqld.service
+
+
+#------------------------------------------------------------
+# Ntp
+RUN cp -p /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+#------------------------------------------------------------
+# Server certs
+RUN mkdir -p /etc/httpd/certs
+RUN openssl genrsa -out /etc/httpd/certs/server.key 4096
+RUN openssl req -new -batch -key /etc/httpd/certs/server.key -out /etc/httpd/certs/server.csr
+RUN openssl x509 -req -days 3650 -in /etc/httpd/certs/server.csr -signkey /etc/httpd/certs/server.key -out /etc/httpd/certs/server.crt
+
+#------------------------------------------------------------
+# PHP7
+RUN mkdir /usr/local/$PHP7
+RUN cd /usr/local/src/$PHP7 && ./configure \
+    --prefix=/usr/local/$PHP7 \
+	--exec-prefix=/usr/local/$PHP7 \
+	--bindir=/usr/local/$PHP7/bin \
+	--sbindir=/usr/local/$PHP7/sbin \
+	--includedir=/usr/local/$PHP7/include \
+	--libdir=/usr/local/$PHP7/lib/php \
+	--mandir=/usr/local/$PHP7/php/man \
+	--with-config-file-path=/usr/local/$PHP7/etc \
+	--sysconfdir=/usr/local/$PHP7/etc  \
+	--with-config-file-scan-dir=/usr/local/$PHP7/php.d \
+	--with-mcrypt=/usr/include \
+	--with-mysqli=mysqlnd \
+	--with-pdo-mysql=mysqlnd \
+	--with-gd \
+	--with-iconv \ 
+	--with-zlib \
+	--enable-xml \
+	--enable-bcmath \
+	--enable-shmop \ 
+	--enable-sysvsem  \
+	--enable-inline-optimization  \
+	--enable-mbregex \
+	--enable-mbstring \
+	--enable-ftp \
+	--enable-gd-native-ttf \
+	--with-openssl \
+	--enable-pcntl \
+	--enable-sockets \
+	--with-xmlrpc \
+	--enable-zip \
+	--enable-soap \
+	--without-pear \
+	--with-gettext \
+	--enable-session \
+	--with-curl \
+	--with-jpeg-dir \
+	--with-freetype-dir \
+	--enable-opcache \
+	--with-apxs2=/usr/bin/apxs 
+RUN cd /usr/local/src/$PHP7 && make -j && make install
+
+# ------------------------------------------------------------
+# 配置 PHP
+RUN echo "export PATH=$PATH:/usr/local/$PHP7/bin/" >> /etc/profile && source /etc/profile
+RUN php -v
+RUN mkdir /usr/local/$PHP7/etc && mkdir /usr/local/$PHP7/php.d
+RUN cp /usr/local/$PHP7/php.ini-development /usr/local/$PHP7/etc/php.ini
+
+#------------------------------------------------------------
+# 安装PHP扩展
+### xdebug install
+RUN cd /usr/local/src/$XDEBUG && /usr/local/$PHP7/bin/phpize
+RUN cd /usr/local/src/$XDEBUG && ./configure --with-php-config=/usr/local/$PHP7/bin/php-config && make && make install
+### redis install
+RUN cd /usr/local/src/$PHPREDIS && /usr/local/$PHP7/bin/phpize
+RUN cd /usr/local/src/$PHPREDIS && ./configure --with-php-config=/usr/local/$PHP7/bin/php-config && make && make install
+
+# ------------------------------------------------------------
+# 配置 PHP 扩展
+RUN echo "extension=redis.so" > /usr/local/$PHP7/php.d/redis.ini
+RUN echo "zend_extension=xdebug.so" > /usr/local/$PHP7/php.d/xdebug.ini
+
+
+#------------------------------------------------------------
+# 清除遗留文件和扩展
+RUN yum install -y yum-utils
+RUN package-cleanup --oldkernels --count=1
+RUN rm -rf /usr/local/src/*
+
+#------------------------------------------------------------
+# 启动
+RUN chmod +x /usr/local/bin/run.sh
+
+CMD ["run.sh"]
