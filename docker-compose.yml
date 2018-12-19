@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  mariadb:
+    image: 'luffyzhao/ubuntu-mariadb:v1.0'
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    volumes:
+      - ${PWD}/library/mysql/data:/var/lib/mysql
+    ports:
+      - "3307:3306"
