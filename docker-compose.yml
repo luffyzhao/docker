@@ -2,10 +2,44 @@ version: '3'
 
 services:
   mariadb:
-    image: 'luffyzhao/ubuntu-mariadb:v1.0'
+    image: 'luffyzhao/ubuntu-mariadb:v1.1'
+    networks:
+      dev:
+        aliases:
+          - mariadb
     environment:
       - MYSQL_ROOT_PASSWORD=123456
     volumes:
-      - ${PWD}/library/mysql/data:/var/lib/mysql
+      - ./data/mariadb:/var/lib/mysql
+      - ./conf.d/mariadb:/etc/mysql/conf.d
     ports:
       - "3307:3306"
+  
+  nginx:
+    image: 'luffyzhao/nginx:v1.0'
+    networks:
+      dev:
+        aliases:
+          - nginx
+    volumes:
+      - ./conf.d/nginx:/etc/nginx/conf.d
+      - ./website:/var/www/html
+    ports:
+      - "8080:80"
+  
+  php73-fpm:
+    image: 'luffyzhao/php-fpm:v1.0'
+    networks:
+      dev:
+        aliases:
+          - php73-fpm
+    volumes:
+      - ./conf.d/php:/usr/local/etc/php
+      - ./conf.d/php-fpm:/usr/local/etc/php-fpm.d
+      - ./website:/var/www/html
+    ports:
+      - "9000:9000"
+
+
+networks:
+  dev:
