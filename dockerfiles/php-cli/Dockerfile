@@ -1,0 +1,34 @@
+#------------------------------------------------------------
+#
+#  用途: 开发环境的基础结构
+#  构成: php:7.3.0
+#
+# @version    1.0
+# @author     Luffy Zhao
+#
+
+#------------------------------------------------------------
+# FROM
+FROM php:7.3.0-cli
+
+#------------------------------------------------------------
+MAINTAINER Luffy Zhao
+
+RUN apt-get update && apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev; \
+    docker-php-ext-install -j$(nproc) iconv; \
+    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/; \
+    docker-php-ext-install -j$(nproc) gd; \
+    docker-php-ext-install pdo_mysql; \
+    docker-php-ext-install mbstring; \
+    docker-php-ext-install bcmath; \
+    docker-php-ext-install posix; \
+    pecl install redis; \
+    pecl install inotify; \
+    pecl install ds; \
+    pecl install swoole; \
+    docker-php-ext-enable redis inotify ds swoole;
+
+VOLUME ["/usr/local/etc/php"]
