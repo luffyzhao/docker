@@ -9,6 +9,9 @@
 namespace EasySwoole\EasySwoole;
 
 
+use App\Crontab\TestCrontab;
+use EasySwoole\Component\Context;
+use EasySwoole\EasySwoole\Crontab\Crontab;
 use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
@@ -25,12 +28,15 @@ class EasySwooleEvent implements Event
 
     public static function mainServerCreate(EventRegister $register)
     {
-        // TODO: Implement mainServerCreate() method.
+        Crontab::getInstance()->addTask(TestCrontab::class);
     }
 
     public static function onRequest(Request $request, Response $response): bool
     {
-        // TODO: Implement onRequest() method.
+        if(0){
+            $response->end(true);
+            return false;
+        }
         return true;
     }
 

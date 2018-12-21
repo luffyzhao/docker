@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit7521eb56f479160d15572de4071181db
+class ComposerStaticInit2ba2e7719333b642e2354e517eff6409
 {
     public static $files = array (
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
@@ -41,6 +41,10 @@ class ComposerStaticInit7521eb56f479160d15572de4071181db
         'C' => 
         array (
             'Cron\\' => 5,
+        ),
+        'A' => 
+        array (
+            'App\\' => 4,
         ),
     );
 
@@ -105,13 +109,17 @@ class ComposerStaticInit7521eb56f479160d15572de4071181db
         array (
             0 => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron',
         ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/App',
+        ),
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7521eb56f479160d15572de4071181db::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7521eb56f479160d15572de4071181db::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2ba2e7719333b642e2354e517eff6409::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2ba2e7719333b642e2354e517eff6409::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

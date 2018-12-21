@@ -14,6 +14,10 @@ FROM php:7.3.0-fpm-stretch
 #------------------------------------------------------------
 MAINTAINER Luffy Zhao
 
+# Timezone
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo 'Asia/Shanghai' > /etc/timezone
+
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \

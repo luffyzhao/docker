@@ -14,6 +14,10 @@ FROM ubuntu:16.04
 #------------------------------------------------------------
 MAINTAINER Luffy Zhao
 
+# Timezone
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo 'Asia/Shanghai' > /etc/timezone
+
 # #------------------------------------------------------------
 # # 换源
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak

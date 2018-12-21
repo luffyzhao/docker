@@ -14,19 +14,7 @@ services:
       - ./conf.d/mariadb:/etc/mysql/conf.d
     ports:
       - "3307:3306"
-  
-  nginx:
-    image: 'luffyzhao/nginx:v1.0'
-    networks:
-      dev:
-        aliases:
-          - nginx
-    volumes:
-      - ./conf.d/nginx:/etc/nginx/conf.d
-      - ./website:/var/www/html
-    ports:
-      - "8080:80"
-  
+      
   php73-fpm:
     image: 'luffyzhao/php-fpm:v1.0'
     networks:
@@ -40,6 +28,18 @@ services:
     ports:
       - "9000:9000"
 
+  nginx:
+    image: 'luffyzhao/nginx:v1.0'
+    networks:
+      dev:
+        aliases:
+          - nginx
+    volumes:
+      - ./conf.d/nginx:/etc/nginx/conf.d
+      - ./website:/var/www/html
+    ports:
+      - "8080:80"
+  
   easySwoole:
     image: 'luffyzhao/php-cli:v1.0'
     networks:
@@ -52,7 +52,7 @@ services:
       - "9501:9501"
       - "9502:9502"
       - "9503:9503"
-    command: [php, /var/www/easyswoole, start]
+    command: [/var/www/start.sh, /var/www, easyswoole, start]
 
 networks:
   dev:

@@ -257,16 +257,16 @@
         },
         {
             "name": "easyswoole/socket",
-            "version": "1.1.4",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/easy-swoole/socket.git",
-                "reference": "0833b30a49e1a5fa2cae2a733e9d4c9afcc3df15"
+                "reference": "b35b1d53ec89e5ab23271651dd1140c493f35c64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/easy-swoole/socket/zipball/0833b30a49e1a5fa2cae2a733e9d4c9afcc3df15",
-                "reference": "0833b30a49e1a5fa2cae2a733e9d4c9afcc3df15",
+                "url": "https://api.github.com/repos/easy-swoole/socket/zipball/b35b1d53ec89e5ab23271651dd1140c493f35c64",
+                "reference": "b35b1d53ec89e5ab23271651dd1140c493f35c64",
                 "shasum": ""
             },
             "require": {
@@ -302,7 +302,7 @@
                 "framework",
                 "swoole"
             ],
-            "time": "2018-12-20T11:19:21+00:00"
+            "time": "2018-12-20T11:20:06+00:00"
         },
         {
             "name": "easyswoole/spl",
