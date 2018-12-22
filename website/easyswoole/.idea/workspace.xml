@@ -2,33 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d04ec1a2-7960-456d-9665-105f55e83d50" name="Default Changelist" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Consts/RedisConst.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Consts/UserConst.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Controller/Http.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Controller/Http/Main.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Controller/Http/Router.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Controller/WebSocket.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Controller/WebSocket/IndexWebSocket.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Events/WebSocketEvents.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Parser/WebSocketParser.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Pool/RedisPool.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Process/HotReload.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Redis/Redis.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Redis/WebSocketRedis.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Utility/UserAuth.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Utility/UserAuth/Parse.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/App/Views/Index/index.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/lua/bind.lua" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/lua/un_bind.lua" />
-      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" afterPath="$PROJECT_DIR$/../docker-compose.yml" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" afterPath="$PROJECT_DIR$/.idea/php.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/App/Crontab/TestCrontab.php" afterPath="$PROJECT_DIR$/App/Controller/Crontab/TestCrontab.php" />
-      <change beforePath="$PROJECT_DIR$/EasySwooleEvent.php" afterPath="$PROJECT_DIR$/EasySwooleEvent.php" />
-      <change beforePath="$PROJECT_DIR$/dev.env" afterPath="$PROJECT_DIR$/dev.env" />
-      <change beforePath="$PROJECT_DIR$/start.sh" afterPath="$PROJECT_DIR$/start.sh" />
       <change beforePath="$PROJECT_DIR$/vendor/easyswoole/http" afterPath="$PROJECT_DIR$/vendor/easyswoole/http" />
-      <change beforePath="$PROJECT_DIR$/vendor/easyswoole/socket" afterPath="$PROJECT_DIR$/vendor/easyswoole/socket" />
       <change beforePath="$PROJECT_DIR$/vendor/nikic/php-parser" afterPath="$PROJECT_DIR$/vendor/nikic/php-parser" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,24 +17,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="WebSocketEvents.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="WebSocketEvents.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/App/Events/WebSocketEvents.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-195">
-              <caret line="72" column="27" lean-forward="false" selection-start-line="72" selection-start-column="27" selection-end-line="72" selection-end-column="27" />
+            <state relative-caret-position="65">
+              <caret line="85" column="47" lean-forward="true" selection-start-line="85" selection-start-column="47" selection-end-line="85" selection-end-column="47" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/App/Views/Index/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-887">
-              <caret line="128" column="33" lean-forward="false" selection-start-line="128" selection-start-column="26" selection-end-line="128" selection-end-column="33" />
-              <folding>
-                <element signature="e#8527#13073#0" expanded="false" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -188,9 +150,9 @@
       <path value="E:\luffyzhao-github\swoole-ide-helper" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="127" />
-    <option name="y" value="49" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="300" />
+    <option name="y" value="108" />
     <option name="width" value="1794" />
     <option name="height" value="944" />
   </component>
@@ -216,30 +178,6 @@
             <path>
               <item name="easyswoole" type="b2602c69:ProjectViewProjectNode" />
               <item name="easyswoole" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="easyswoole" type="b2602c69:ProjectViewProjectNode" />
-              <item name="easyswoole" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="App" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="easyswoole" type="b2602c69:ProjectViewProjectNode" />
-              <item name="easyswoole" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="App" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Events" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="easyswoole" type="b2602c69:ProjectViewProjectNode" />
-              <item name="easyswoole" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="App" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Views" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="easyswoole" type="b2602c69:ProjectViewProjectNode" />
-              <item name="easyswoole" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="App" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Views" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Index" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
@@ -294,15 +232,15 @@
       <workItem from="1545399646438" duration="7989000" />
       <workItem from="1545444820809" duration="4183000" />
       <workItem from="1545452337105" duration="6447000" />
-      <workItem from="1545460438097" duration="6578000" />
+      <workItem from="1545460438097" duration="6776000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34861000" />
+    <option name="totallyTimeSpent" value="35059000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="300" y="108" width="1794" height="944" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -310,7 +248,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32990867" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26502147" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28687572" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -725,21 +663,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/App/Events/WebSocketEvents.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-195">
-          <caret line="72" column="27" lean-forward="false" selection-start-line="72" selection-start-column="27" selection-end-line="72" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/App/Views/Index/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-887">
+        <state relative-caret-position="-467">
           <caret line="128" column="33" lean-forward="false" selection-start-line="128" selection-start-column="26" selection-end-line="128" selection-end-column="33" />
           <folding>
             <element signature="e#8527#13073#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/Events/WebSocketEvents.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="65">
+          <caret line="85" column="47" lean-forward="true" selection-start-line="85" selection-start-column="47" selection-end-line="85" selection-end-column="47" />
+          <folding />
         </state>
       </provider>
     </entry>
