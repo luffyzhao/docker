@@ -14,9 +14,9 @@ FROM ubuntu:16.04
 #------------------------------------------------------------
 MAINTAINER Luffy Zhao
 
-# Timezone
-RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && echo 'Asia/Shanghai' > /etc/timezone
+# # Timezone
+# RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+#     && echo 'Asia/Shanghai' > /etc/timezone
 
 # #------------------------------------------------------------
 # # 换源
@@ -55,6 +55,7 @@ RUN chmod +x /docker-entrypoint.sh
 
 VOLUME ["/var/lib/mysql", "/etc/mysql/conf.d"]
 
+USER mysql
 
 EXPOSE 3306
 

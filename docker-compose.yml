@@ -53,6 +53,18 @@ services:
       - "9502:9502"
       - "9503:9503"
     command: [/var/www/start.sh, /var/www, easyswoole, start]
+  reids: 
+    image: 'redis:5.0.3'
+    networks: 
+      dev:
+        aliases:
+          - redis
+    volumes:
+      - ./conf.d/redis:/data
+    ports:
+      - "6679:6379"
+    command: [redis-server, /data/redis.conf]
+
 
 networks:
   dev:
