@@ -1,4 +1,0 @@
-[mysql]
-port = 3306
-default-character-set=utf8mb4
-socket=/var/run/mysqld/mysqld.sock

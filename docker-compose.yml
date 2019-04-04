@@ -1,70 +1,56 @@
 version: '3'
 
 services:
-  mariadb:
-    image: 'luffyzhao/ubuntu-mariadb:v1.1'
+  php7.1:
+    build: ./dockerfiles/php7.1
     networks:
       dev:
         aliases:
-          - mariadb
-    environment:
-      - MYSQL_ROOT_PASSWORD=123456
+          - php
     volumes:
-      # - ./data/mariadb:/var/lib/mysql
-      - ./conf.d/mariadb:/etc/mysql/conf.d
-    ports:
-      - "3307:3306"
-      
-  php73-fpm:
-    image: 'luffyzhao/php-fpm:v1.0'
-    networks:
-      dev:
-        aliases:
-          - php73-fpm
-    volumes:
-      - ./conf.d/php:/usr/local/etc/php
-      - ./conf.d/php-fpm:/usr/local/etc/php-fpm.d
-      - ./website:/var/www/html
+      - ./dockerfiles/php7.1/php-fpm.d:/usr/local/etc/php/php-fpm.d
+      - ./dockerfiles/php7.1/conf.d:/usr/local/etc/php/conf.d
+      - ./www:/var/www/html
     ports:
       - "9000:9000"
 
   nginx:
-    image: 'luffyzhao/nginx:v1.0'
+    build: ./dockerfiles/nginx
     networks:
       dev:
         aliases:
           - nginx
     volumes:
-      - ./conf.d/nginx:/etc/nginx/conf.d
-      - ./website:/var/www/html
+      - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d
+      - ./www:/var/www/html
     ports:
-      - "8080:80"
-  
-  easySwoole:
-    image: 'luffyzhao/php-cli:v1.0'
+      - "80:80"
+
+  mysql:
+    build: ./dockerfiles/mysql5.7
     networks:
       dev:
         aliases:
-          - easy-swoole
-    volumes: 
-      - ./website/easyswoole:/var/www
+          - mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    volumes:
+      - ./dockerfiles/mysql5.7/data:/var/lib/mysql
+      - ./dockerfiles/mysql5.7/conf.d:/etc/mysql/conf.d
     ports:
-      - "9501:9501"
-      - "9502:9502"
-      - "9503:9503"
-    command: [/var/www/start.sh, /var/www, easyswoole, start]
+      - "3306:3306"
+
   reids: 
-    image: 'redis:5.0.3'
+    image: 'redis:5.0.4'
     networks: 
       dev:
         aliases:
           - redis
     volumes:
-      - ./conf.d/redis:/var/local
+      - ./dockerfiles/redis:/data
     ports:
-      - "6679:6379"
-    command: [redis-server, /var/local/redis.conf]
-
-
+      - "6379:6379"
+    command: [redis-server, /data/redis.conf]
+      
 networks:
   dev:

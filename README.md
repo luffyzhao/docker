@@ -1,13 +1,18 @@
-### 开发 docker
+# Docker
 
-### 安装
+## 开发环境
 
-#### 获取仓库
-> git clone git@github.com:luffyzhao/docker.git
+### 启动
+docker-composer up -d
 
-#### 启动容器
-> cd $pwd && docker-compose -d up
+### PHP 容器
+docker-compose exec php7.1 /bin/bash
 
-#### 查看日志
+### nginx 容器
+docker-compose exec nginx /bin/bash
 
-> docker-compose logs
+### mysql 容器
+docker-compose exec mysql /bin/bash
+
+### redis 容器
+docker-compose exec redis /bin/bash
