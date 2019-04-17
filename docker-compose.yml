@@ -14,6 +14,19 @@ services:
     ports:
       - "9000:9000"
 
+  swoole:
+    build: ./dockerfiles/swoole
+    networks:
+      dev:
+        aliases:
+          - php
+    volumes:
+      - ./www:/var/www/html
+    ports:
+      - "9501:9501"
+      - "9502:9502"
+      - "9503:9503"
+
   nginx:
     build: ./dockerfiles/nginx
     networks:
