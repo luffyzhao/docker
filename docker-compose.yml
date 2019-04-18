@@ -14,6 +14,17 @@ services:
     ports:
       - "9000:9000"
 
+  php7.2:
+    build: ./dockerfiles/php7.2
+    networks:
+      dev:
+        aliases:
+          - php
+    volumes:
+      - ./dockerfiles/php7.2/php-fpm.d:/usr/local/etc/php/php-fpm.d
+      - ./dockerfiles/php7.2/conf.d:/usr/local/etc/php/conf.d
+      - ./www:/var/www/html
+
   swoole:
     build: ./dockerfiles/swoole
     networks:
