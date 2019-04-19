@@ -2,56 +2,56 @@ version: '3'
 
 services:
   php7.1:
-    build: ./dockerfiles/php7.1
+    image: luffyzhao/php:7.1
     networks:
       dev:
         aliases:
-          - php
+          - php7.1
     volumes:
       - ./dockerfiles/php7.1/php-fpm.d:/usr/local/etc/php/php-fpm.d
       - ./dockerfiles/php7.1/conf.d:/usr/local/etc/php/conf.d
-      - ./www:/var/www/html
+      - E:/www:/var/www/html
     ports:
       - "9000:9000"
 
   php7.2:
-    build: ./dockerfiles/php7.2
+    image: luffyzhao/php:7.2
     networks:
       dev:
         aliases:
-          - php
+          - php7.2
     volumes:
       - ./dockerfiles/php7.2/php-fpm.d:/usr/local/etc/php/php-fpm.d
       - ./dockerfiles/php7.2/conf.d:/usr/local/etc/php/conf.d
-      - ./www:/var/www/html
+      - E:/www:/var/www/html
 
   swoole:
-    build: ./dockerfiles/swoole
+    image: luffyzhao/php:7.1-swoole-4.3.1
     networks:
       dev:
         aliases:
-          - php
+          - php7.1-swoole-4.3.1
     volumes:
-      - ./www:/var/www/html
+      - E:/www:/var/www/html
     ports:
       - "9501:9501"
       - "9502:9502"
       - "9503:9503"
 
   nginx:
-    build: ./dockerfiles/nginx
+    image: luffyzhao/nginx:1.15.7
     networks:
       dev:
         aliases:
           - nginx
     volumes:
       - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d
-      - ./www:/var/www/html
+      - E:/www:/var/www/html
     ports:
       - "80:80"
 
   mysql:
-    build: ./dockerfiles/mysql5.7
+    image: luffyzhao/mysql:5.7
     networks:
       dev:
         aliases:
@@ -65,16 +65,17 @@ services:
       - "3306:3306"
 
   reids: 
-    image: 'redis:5.0.4'
+    image: luffyzhao/redis:5.0.4
     networks: 
       dev:
         aliases:
           - redis
     volumes:
-      - ./dockerfiles/redis:/data
+      - ./dockerfiles/redis/data:/data
+      - ./dockerfiles/redis/config:/var/www
     ports:
       - "6379:6379"
-    command: [redis-server, /data/redis.conf]
+    command: [redis-server, /var/www/redis.conf]
       
 networks:
   dev:
