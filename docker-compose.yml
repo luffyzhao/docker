@@ -1,52 +1,21 @@
 version: '3'
 
 services:
-  php7.1:
-    image: luffyzhao/php:7.1
+  apache:
+    image: luffyzhao/php:7.1-apache
     networks:
       dev:
         aliases:
-          - php7.1
+          - apache
     volumes:
-      - ./dockerfiles/php7.1/php-fpm.d:/usr/local/etc/php/php-fpm.d
-      - ./dockerfiles/php7.1/conf.d:/usr/local/etc/php/conf.d
-      - E:/www:/var/www/html
-    ports:
-      - "9000:9000"
-
-  php7.2:
-    image: luffyzhao/php:7.2
-    networks:
-      dev:
-        aliases:
-          - php7.2
-    volumes:
-      - ./dockerfiles/php7.2/php-fpm.d:/usr/local/etc/php/php-fpm.d
-      - ./dockerfiles/php7.2/conf.d:/usr/local/etc/php/conf.d
-      - E:/www:/var/www/html
-
-  swoole:
-    image: luffyzhao/php:7.1-swoole-4.3.1
-    networks:
-      dev:
-        aliases:
-          - php7.1-swoole-4.3.1
-    volumes:
-      - E:/www:/var/www/html
-    ports:
-      - "9501:9501"
-      - "9502:9502"
-      - "9503:9503"
-
-  nginx:
-    image: luffyzhao/nginx:1.15.7
-    networks:
-      dev:
-        aliases:
-          - nginx
-    volumes:
-      - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d
-      - E:/www:/var/www/html
+      - ./dockerfiles/php7.1-apache/conf-available:/etc/apache2/conf-available
+      - ./dockerfiles/php7.1-apache/conf-enabled:/etc/apache2/conf-enabled
+      - ./dockerfiles/php7.1-apache/sites-available:/etc/apache2/sites-available
+      - ./dockerfiles/php7.1-apache/sites-enabled:/etc/apache2/sites-enabled
+      - ./dockerfiles/php7.1-apache/mods-available:/etc/apache2/mods-available
+      - ./dockerfiles/php7.1-apache/mods-enabled:/etc/apache2/mods-enabled
+      - ./dockerfiles/php7.1-apache/conf.d:/usr/local/etc/php/conf.d
+      - e:/www:/var/www/html
     ports:
       - "80:80"
 
@@ -76,6 +45,16 @@ services:
     ports:
       - "6379:6379"
     command: [redis-server, /var/www/redis.conf]
+
+  beanstalkd: 
+    image: schickling/beanstalkd
+    networks: 
+      dev:
+        aliases:
+          - beanstalkd
+    ports:
+      - "11300:11300"
+
       
 networks:
   dev:

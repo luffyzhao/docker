@@ -1,0 +1,9 @@
+SELECT * FROM `ftp_message_shipbatch_order` WHERE unified_status=6 AND YEAR(`fml_add_time`) = "2019" AND MONTH(`fml_add_time`) = "6" 
+
+SELECT * FROM `orders` WHERE order_code in (SELECT order_code FROM `ftp_message_shipbatch_order` WHERE unified_status=6 AND YEAR(`fml_add_time`) = "2019" AND MONTH(`fml_add_time`) = "6" )
+
+SELECT * FROM `order_product` WHERE order_id in (SELECT order_id FROM `orders` WHERE order_code in (SELECT order_code FROM `ftp_message_shipbatch_order` WHERE unified_status=6 AND YEAR(`fml_add_time`) = "2019" AND MONTH(`fml_add_time`) = "6" )
+)
+
+SELECT SUM(value_added_tax) as '总应征增值税', SUM(`consumption_tax`) as '总应征消费税' from `order_tax` WHERE order_code in (SELECT order_code FROM `orders` WHERE order_code in (SELECT order_code FROM `ftp_message_shipbatch_order` WHERE unified_status=6 AND YEAR(`fml_add_time`) = "2019" AND MONTH(`fml_add_time`) = "6" )
+)
