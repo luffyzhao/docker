@@ -1,6 +1,42 @@
 version: '3'
 
 services:
+  php7.1:
+    image: luffyzhao/php:7.1
+    networks:
+      dev:
+        aliases:
+          - php7.1
+    volumes:
+      - ./dockerfiles/php7.1/php-fpm.d:/usr/local/etc/php/php-fpm.d
+      - ./dockerfiles/php7.1/conf.d:/usr/local/etc/php/conf.d
+      - E:/www:/var/www/html
+    ports:
+      - "9000:9000"
+
+  php7.2:
+    image: luffyzhao/php:7.2
+    networks:
+      dev:
+        aliases:
+          - php7.2
+    volumes:
+      - ./dockerfiles/php7.2/php-fpm.d:/usr/local/etc/php/php-fpm.d
+      - ./dockerfiles/php7.2/conf.d:/usr/local/etc/php/conf.d
+      - E:/tools:/var/www/html
+
+  swoole:
+    image: luffyzhao/php:7.1-swoole-4.3.1
+    networks:
+      dev:
+        aliases:
+          - php7.1-swoole-4.3.1
+    volumes:
+      - E:/www:/var/www/html
+    ports:
+      - "9501:9501"
+      - "9502:9502"
+      - "9503:9503"
   apache:
     image: luffyzhao/php:7.1-apache
     networks:
@@ -16,6 +52,16 @@ services:
       - ./dockerfiles/php7.1-apache/mods-enabled:/etc/apache2/mods-enabled
       - ./dockerfiles/php7.1-apache/conf.d:/usr/local/etc/php/conf.d
       - e:/www:/var/www/html
+
+  nginx:
+    image: luffyzhao/nginx:1.15.7
+    networks:
+      dev:
+        aliases:
+          - nginx
+    volumes:
+      - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d
+      - E:/www:/var/www/html
     ports:
       - "80:80"
 
@@ -45,6 +91,19 @@ services:
     ports:
       - "6379:6379"
     command: [redis-server, /var/www/redis.conf]
+  
+  mongo:
+    image: mongo:4.0.9-xenial
+    networks:
+      dev:
+        aliases:
+          - mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
 
   beanstalkd: 
     image: schickling/beanstalkd
@@ -55,6 +114,5 @@ services:
     ports:
       - "11300:11300"
 
-      
 networks:
   dev:
