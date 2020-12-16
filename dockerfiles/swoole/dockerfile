@@ -9,11 +9,8 @@
 
 #------------------------------------------------------------
 # FROM
-FROM php:7.1.28
+FROM phpswoole/swoole:4.5.9-php7.3
 
-
-# Version
-ENV PHPREDIS_VERSION 4.0.1
 
 # Timezone
 RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
@@ -43,59 +40,40 @@ RUN apt-get update \
     git \
   && rm -rf /var/lib/apt/lists/*
 
-RUN docker-php-ext-configure bcmath --enable-bcmath \
-    && docker-php-ext-configure pcntl --enable-pcntl \
-    && docker-php-ext-configure pdo_mysql --with-pdo-mysql \
-    && docker-php-ext-configure pdo_pgsql --with-pgsql \
-    && docker-php-ext-configure mbstring --enable-mbstring \
-    && docker-php-ext-configure soap --enable-soap \
-    && docker-php-ext-install \
+RUN docker-php-ext-configure bcmath --enable-bcmath
+RUN docker-php-ext-configure pcntl --enable-pcntl
+RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql 
+RUN docker-php-ext-configure soap --enable-soap 
+
+COPY libzip-1.2.0.tar.gz / 
+
+RUN cd / && \
+    tar -zxvf libzip-1.2.0.tar.gz && \
+    cd libzip-1.2.0  && \
+    ./configure && \
+    make && make install
+
+RUN docker-php-ext-install \
         bcmath \
         intl \
-        mbstring \
-        mcrypt \
         mysqli \
         pcntl \
         pdo_mysql \
         pdo_pgsql \
         soap \
-        sockets \
-        zip \
-  && docker-php-ext-configure gd \
-    --enable-gd-native-ttf \
+        zip
+
+RUN docker-php-ext-configure gd \
     --with-jpeg-dir=/usr/lib \
-    --with-freetype-dir=/usr/include/freetype2 && \
-    docker-php-ext-install gd \
-  && docker-php-ext-install opcache \
-  && docker-php-ext-enable opcache \
-  && pecl install redis \
-  && docker-php-ext-enable redis
+    --with-freetype-dir=/usr/include/freetype2
+
+RUN docker-php-ext-install gd 
+RUN pecl install redis 
+RUN docker-php-ext-enable redis
 
 COPY composer /usr/local/bin/
-    
-COPY swoole-src-4.3.1.tar.gz ./
-
-# Swoole extension
-RUN mkdir -p swoole \
-    && tar -xf swoole-src-4.3.1.tar.gz -C swoole --strip-components=1 \
-    && rm swoole-src-4.3.1.tar.gz \
-    && ( \
-    cd swoole \
-    && phpize \
-    && ./configure --enable-async-redis --enable-mysqlnd --enable-openssl --enable-http2 \
-    && make -j$(nproc) \
-    && make install \
-    ) \
-    && rm -r swoole \
-    && docker-php-ext-enable swoole
-    
-RUN mkdir /var/www/test/
-
-COPY test.php /var/www/test/index.php
 
 
 EXPOSE 9501
 EXPOSE 9502
 EXPOSE 9503
-
-ENTRYPOINT ["php", "/var/www/test/index.php"]
