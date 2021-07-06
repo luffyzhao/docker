@@ -1,34 +1,36 @@
 version: '3'
 
 services:
-  php7.2:
-    image: luffyzhao/php:7.2
+  php7.4:
+    image: luffyzhao/php:7.4-fpm
     networks:
       dev:
         aliases:
-          - php7.2
+          - php7.4
     volumes:
-      - ./dockerfiles/php7.2/php-fpm.d:/usr/local/etc/php/php-fpm.d
-      - ./dockerfiles/php7.2/conf.d:/usr/local/etc/php/conf.d
+      - ./dockerfiles/php7.4/php-fpm.d:/usr/local/etc/php/php-fpm.d
+      - ./dockerfiles/php7.4/conf.d:/usr/local/etc/php/conf.d
       - E:/tools:/var/local
       - E:/www:/var/www/html
     ports:
       - "9001:9000"
+      - "18001:8000"
+    command: [php-fpm]
 
   swoole:
-    image: phpswoole/swoole:4.5.9-php7.3
+    image: luffyzhao/php:swoole4.5.9-php7.3-v1
     networks:
       dev:
         aliases:
-          - php7.1-swoole-4.3.1
+          - swoole
     volumes:
       - E:/www:/var/www/html
-      - E:/tools/docker/dockerfiles/swoole:/var/local
+      - E:/tools:/var/local
     ports:
       - "9501:9501"
       - "9502:9502"
       - "9503:9503"
-
+    command: [php, /var/www/server.php]
 
   nginx:
     image: luffyzhao/nginx:1.15.7
@@ -56,9 +58,9 @@ services:
     ports:
       - "3306:3306"
 
-  reids: 
+  reids:
     image: luffyzhao/redis:5.0.4
-    networks: 
+    networks:
       dev:
         aliases:
           - redis

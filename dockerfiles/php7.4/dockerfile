@@ -1,0 +1,72 @@
+#------------------------------------------------------------
+#
+#  用途: 开发环境的基础结构
+#  构成: nginx:1.15.7
+#
+# @version    1.0
+# @author     Luffy Zhao
+#
+
+#------------------------------------------------------------
+# FROM
+FROM php:7.4-fpm
+
+#------------------------------------------------------------
+MAINTAINER Luffy Zhao
+
+# Timezone
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo 'Asia/Shanghai' > /etc/timezone
+
+RUN apt-get update 
+RUN  apt-get install -y --no-install-recommends curl 
+RUN  apt-get install -y --no-install-recommends libicu-dev 
+RUN  apt-get install -y --no-install-recommends libmemcached-dev
+RUN  apt-get install -y --no-install-recommends libz-dev
+RUN  apt-get install -y --no-install-recommends libpq-dev
+RUN  apt-get install -y --no-install-recommends libjpeg-dev
+RUN  apt-get install -y --no-install-recommends libpng-dev
+RUN  apt-get install -y --no-install-recommends libfreetype6-dev
+RUN  apt-get install -y --no-install-recommends libssl-dev
+RUN  apt-get install -y --no-install-recommends libmcrypt-dev
+RUN  apt-get install -y --no-install-recommends libxml2-dev
+RUN  apt-get install -y --no-install-recommends libbz2-dev
+RUN  apt-get install -y --no-install-recommends libjpeg62-turbo-dev
+RUN  apt-get install -y --no-install-recommends curl
+RUN  apt-get install -y --no-install-recommends git
+RUN  apt-get install -y --no-install-recommends wget
+RUN  apt-get install -y --no-install-recommends libonig-dev
+RUN  apt-get install -y --no-install-recommends zlib1g-dev
+RUN  apt-get install -y --no-install-recommends libzip-dev
+
+RUN docker-php-ext-configure bcmath --enable-bcmath
+RUN docker-php-ext-configure pcntl --enable-pcntl 
+RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql 
+RUN docker-php-ext-configure pdo_pgsql 
+RUN docker-php-ext-configure mbstring --enable-mbstring
+RUN docker-php-ext-configure soap --enable-soap
+
+RUN docker-php-ext-install bcmath
+RUN docker-php-ext-install  intl
+RUN docker-php-ext-install  mbstring
+RUN docker-php-ext-install  mysqli
+RUN docker-php-ext-install  pcntl
+RUN docker-php-ext-install  pdo_mysql
+RUN docker-php-ext-install  soap
+RUN docker-php-ext-install  sockets
+RUN docker-php-ext-install zip
+
+RUN docker-php-ext-configure gd --with-jpeg --with-freetype
+    
+RUN docker-php-ext-install gd 
+RUN docker-php-ext-install opcache 
+RUN docker-php-ext-enable opcache 
+RUN pecl install redis 
+RUN docker-php-ext-enable redis
+
+
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+
+COPY composer /usr/local/bin/
+
+VOLUME ["$PHP_INI_DIR/conf.d/", "$PHP_INI_DIR/php-fpm.d"]
